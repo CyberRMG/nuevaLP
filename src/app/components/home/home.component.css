@@ -1,0 +1,10 @@
+.container{
+    display: grid;
+    justify-items: center;
+}
+
+img{
+    height: 75%;
+    width: 75%;
+    object-fit: cover;
+}
