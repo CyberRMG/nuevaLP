@@ -1,33 +1,123 @@
 <div class="container">
+  <div class="top-productos">
     <div>
-        <p>Productos</p>
+      <p>Productos</p>
     </div>
-    
-    <div>
-        <table class="table table-dark table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Product</th>
-                <th scope="col">Price</th>
-                <th scope="col">Description</th>
-                <th scope="col">Detail</th>
-              </tr>
-            </thead>
-            <tbody>
-                @for (product of productList; track $index) {
-                    <tr>
-                        <th scope="row">{{product.id}}</th>
-                        <td>{{product.title}}</td>
-                        <td>{{product.price | currency}}</td>
-                        <td>{{product.description}}</td>
-                        <td>
-                            <button type="button" 
-                            class="btn btn-outline-primary" (click)="navigate(product.id)">Detail</button>
-                        </td>
-                      </tr>
-                }
-            </tbody>
-          </table>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      Crear Producto
+    </button>
+  </div>
+
+
+  <div>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Product</th>
+          <th scope="col">Price</th>
+          <th scope="col">Description</th>
+          <th scope="col">Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of productList; track $index) {
+        <tr>
+          <th scope="row">{{product.id}}</th>
+          <td>{{product.title}}</td>
+          <td>{{product.price | currency}}</td>
+          <td>{{product.description}}</td>
+          <td>
+            <button type="button" class="btn btn-outline-primary" (click)="navigate(product.id)">Detail</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Nuevo Producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="newProduct">
+          <div class="mb-3">
+            <label for="title" class="form-label">Nombre</label>
+            <input type="text" class="form-control" 
+              [ngClass]="{'is-invalid' : hasErrors('title', 'required') || hasErrors('title', 'minlength')}" 
+              id="title" formControlName="title">
+            @if(hasErrors('title', 'required')){
+              <div class="text-danger">Nombre Requerido</div>
+            }
+            @if (hasErrors('title', 'minlength')) {
+              <div class="text-danger">Debe de incluir, al menos tres caracteres</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label for="price" class="form-label">Precio</label>
+            <input type="text" class="form-control"
+              [ngClass]="{'is-invalid' : hasErrors('price', 'required') || hasErrors('price', 'minlength') || hasErrors('price', 'pattern')}"
+              id="price" formControlName="price">
+            @if(hasErrors('price', 'required')){
+              <div class="text-danger">Precio Requerido</div>
+            }
+            @if (hasErrors('price', 'minlength')) {
+              <div class="text-danger">Debe de incluir, al menos un caracter</div>
+            }
+            @if (hasErrors('price', 'pattern')) {
+              <div class="text-danger">Solo pueden ser números</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Descripción</label>
+            <input type="text" class="form-control" 
+              [ngClass]="{'is-invalid' : hasErrors('description', 'required') || hasErrors('description', 'minlength')}"
+              id="description" formControlName="description">
+            @if (hasErrors('description', 'required')) {
+              <div class="text-danger">Descripción Requerida</div>
+            }
+            @if (hasErrors('description', 'minlength')) {
+              <div class="text-danger">Debe contener, al menos 10 caracteres</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Imagen</label>
+            <input type="file" class="form-control" 
+              [ngClass]="{'is-invalid' : hasErrors('image', 'required')}"
+              id="image" formControlName="image">
+            @if (hasErrors('image', 'required')) {
+              <div class="text-danger">Imagen Requerida</div>
+            }
+          </div>
+          <div class="mb-3">
+            <label for="category" class="form-label">Categoría</label>
+            <select class="form-select" aria-label="Categoría"
+              [ngClass]="{'is-invalid' : hasErrors('category', 'required')}"
+                id="category" formControlName="category">
+              @if(hasErrors('category', 'required')){
+                <div class="text-danger">Categoría Requerida</div>
+              }
+              @for (category of categoria; track categoria) {
+                <option [value]="category">{{category}}</option>
+              }
+            </select>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="nuevoProducto()" [disabled]="newProduct.invalid" data-bs-target="#exitoModal">Crear</button>
+      </div>
     </div>
+  </div>
 </div>
