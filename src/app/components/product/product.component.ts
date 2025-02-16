@@ -66,6 +66,12 @@ export class ProductComponent implements OnInit{
         },
         complete: () => {
           console.log('Exito al post');
+          alert('Producto Agregado Correctamente');
+          this.newProduct.reset();
+          const closeButton = document.querySelector('.modal .btn-close') as HTMLElement;
+          if (closeButton){
+            closeButton.click();
+          }
         }
       }
     );
