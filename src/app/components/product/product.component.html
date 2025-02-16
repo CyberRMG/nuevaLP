@@ -11,7 +11,7 @@
   </div>
 
 
-  <div>
+  <!-- <div>
     <table class="table table-dark table-striped">
       <thead>
         <tr>
@@ -36,6 +36,25 @@
         }
       </tbody>
     </table>
+  </div> -->
+
+  <div class="row">
+    @for (product of productList; track product.id) {
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <img [src]="product.image" [alt]="product.title" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">{{ product.description | slice:0:100 }}...</p>
+            <h6 class="text-primary">💰 ${{ product.price }}</h6>
+            <p>⭐ {{ product.rating.rate }} ({{ product.rating.count }} reviews)</p>
+          </div>
+          <div class="card-footer text-center">
+            <button class="btn btn-primary" (click)="getDetalle(product.id)">Ver más</button>
+          </div>
+        </div>
+      </div>
+    }
   </div>
 </div>
 

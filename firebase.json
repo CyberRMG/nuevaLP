@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/lp-Angular18/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
